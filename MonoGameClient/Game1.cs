@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Engine.Engines;
 using Sprites;
+using GameComponentNS;
 using System.Collections.Generic;
 
 namespace MonoGameClient
@@ -18,6 +19,7 @@ namespace MonoGameClient
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont font;
+        
         string connectionMessage = string.Empty;
 
         // SignalR Client object delarations
@@ -100,8 +102,10 @@ namespace MonoGameClient
         private void clientJoined(PlayerData otherPlayerData)
         {
             // Create an other player sprite
+            //use points in game to make movement smoother
             new OtherPlayerSprite(this, otherPlayerData, Content.Load<Texture2D>(otherPlayerData.imageName),
                                     new Point(otherPlayerData.playerPosition.X, otherPlayerData.playerPosition.Y));
+            new FadeText(this, Vector2.Zero, otherPlayerData.GamerTag + "Has joined the game");
         }
 
 
@@ -160,7 +164,8 @@ namespace MonoGameClient
             // Create an other player sprites in this client afte
             new SimplePlayerSprite(this, player, Content.Load<Texture2D>(player.imageName),
                                     new Point(player.playerPosition.X, player.playerPosition.Y));
-            connectionMessage = player.playerID + " created ";
+            //connectionMessage = player.playerID + " created ";
+            new FadeText(this, Vector2.Zero, "Welcome " + player.GamerTag + "you are playing as " + player.imageName);
         }
 
         /// <summary>
@@ -171,8 +176,8 @@ namespace MonoGameClient
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Services.AddService<SpriteBatch>(spriteBatch);
-
             font = Content.Load<SpriteFont>("Message");
+            Services.AddService<SpriteFont>(font);
             
         }
 
