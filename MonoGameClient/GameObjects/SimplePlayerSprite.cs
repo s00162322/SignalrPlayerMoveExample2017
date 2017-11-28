@@ -21,6 +21,8 @@ namespace Sprites
 		public PlayerData pData;
         public Point previousPosition;		
         public int speed = 5;
+        private int delay;
+
         // Constructor epects to see a loaded Texture
         // and a start position
         public SimplePlayerSprite(Game game, PlayerData data, Texture2D spriteImage,
@@ -50,9 +52,12 @@ namespace Sprites
             if (InputEngine.IsKeyHeld(Keys.Right))
                 Position += new Point(speed,0) ;
 
+            delay -= gameTime.ElapsedGameTime.Milliseconds;
+
             // if we have moved pull back the proxy reference and send a message to the hub
-            if(Position != previousPosition)
+            if(Position != previousPosition && delay <= 0)
             {
+                delay = 2000;
                 pData.playerPosition = new Position { X = Position.X, Y = Position.Y };
                 IHubProxy proxy = Game.Services.GetService<IHubProxy>();
                 proxy.Invoke("Moved", new Object[] 
