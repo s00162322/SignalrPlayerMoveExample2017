@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using CommonDataItems;
+using CredentialSignalRGameServer;
 
 namespace SignalrGameServer
 {
@@ -15,10 +16,10 @@ namespace SignalrGameServer
         // Use static to protect Data across dofferent hub invocations
         public static Queue<PlayerData> RegisteredPlayers = new Queue<PlayerData>( new PlayerData[]
         {
-            new PlayerData { GamerTag = "Dark Terror", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 200 },
-            new PlayerData { GamerTag = "Mistic Meg", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 2000 },
-            new PlayerData { GamerTag = "Jinxy", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 1200 },
-            new PlayerData { GamerTag = "Jabber Jaws", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 3200 },
+            new PlayerData { GamerTag = "BAZOOKA", imageName = "", playerID = Guid.NewGuid().ToString(), Coins = 0 },
+            new PlayerData { GamerTag = "WENGU", imageName = "", playerID = Guid.NewGuid().ToString(), Coins = 0 },
+            new PlayerData { GamerTag = "CRUSH", imageName = "", playerID = Guid.NewGuid().ToString(), Coins = 0 },
+            new PlayerData { GamerTag = "HAWKE", imageName = "", playerID = Guid.NewGuid().ToString(), Coins = 0 },
         });
 
         public static List<PlayerData> Players = new List<PlayerData>();
@@ -33,6 +34,15 @@ namespace SignalrGameServer
             Clients.All.hello();
         }
 
+
+        public PlayerData checkCredentials(string name, string password)
+        {
+            return GameDataObjects.RegisteredPlayers
+                                  .FirstOrDefault(p => p.PlayerName == name.ToLower()
+                                   && p.Password == password.ToLower());
+
+
+        }
 
         public PlayerData Join()
         {

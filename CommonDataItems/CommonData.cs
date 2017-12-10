@@ -18,8 +18,8 @@ namespace CommonDataItems
         public string imageName = string.Empty;
         public string GamerTag = string.Empty;
         public string PlayerName = string.Empty;
-        public int XP;
+        public int Coins;
         public Position playerPosition;
-        public string Password;
+        public string Password = string.Empty;
     }
 }
